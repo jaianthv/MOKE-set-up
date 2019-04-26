@@ -1,0 +1,43 @@
+[Main]
+//uncomment following line to define functions using outside of this scope
+//@global=1;
+
+[Main]
+	
+doc -e LB{
+	wks.addCol();
+	COL(11)[L]$=Norm;
+	COL(K)=(((COL(J)-min(COL(J)))/(max(COL(J))-min(COL(J))))-0.5)/0.5;
+	wks.col3.type=4
+}
+
+doc -e LB{
+	expASC iw:=[Book2]Sheet3 type:=1 path:="Y:\public\MOKE_measurements\30102018_Timedependence_PtCo6p5Pt_sin1um\formatlab" separator:=TAB;
+}
+
+doc -e LB{
+string temp$ = wks.name$; // Get worksheet short name
+           // string temp$ = wks.longname$; // Run this line to get worksheet long name
+              expASC type:=1 path:= "Y:\public\MOKE_measurements\30102018_Timedependence_PtCo6p5Pt_sin1um\formatlab" shortname:=1 separator:=comma; // Export files as .txt files with column short names exported
+}
+
+
+%use this
+fdlog.openpath(B); // choose directory to store files
+
+
+doc -e W{   // loop over all workbooks in project
+ 
+       doc -e LW // loop over all worksheets in workbook
+            {
+            string temp$ = wks.name$; // Get worksheet short name
+            //string temp$ = wks.longname$; // Run this line to get worksheet long name
+              expASC type:=text path:=%B%H_%(temp$) shortname:=1 separator:=comma; // Export files as .txt files with column short names exported
+            };
+}
+
+
+doc -e LB{
+	
+	wks.col3.type=4
+}
